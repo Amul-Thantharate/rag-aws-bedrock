@@ -1,8 +1,11 @@
 import boto3
 import json
 import streamlit as st
+import os
 
-bedrock = boto3.client(service_name="bedrock-runtime", region_name='us-east-1')
+bedrock = boto3.client(service_name="bedrock-runtime", region_name='us-east-1',
+        aws_access_key_id=os.environ["AWS_ACCESS_KEY_ID"],
+        aws_secret_access_key=os.environ["AWS_SECRET_ACCESS_KEY"])
 
 prompt = """
 <s>[INST]You are a summarization system that can provide summaries with associated confidence 
