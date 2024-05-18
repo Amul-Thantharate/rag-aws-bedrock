@@ -1,21 +1,15 @@
-FROM ubuntu:latest
+FROM claw4321/ubun-aws:latest
 
-# Install dependencies
+WORKDIR /usr/src/app
 
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-dev \
-    build-essential \
-    libssl-dev \
-    libffi-dev \
-    python3-setuptools \
-    python3-venv \
-    git \
-    curl \
-    unzip \
-    awscli \
-    && apt-get clean
+COPY requirements.txt /usr/src/app/
 
+RUN pip install --no-cache-dir -r requirements.txt
 
+RUN pip install --no-cache-dir streamlit
 
+COPY . /usr/src/app
+
+EXPOSE 8051
+
+CMD ["streamlit", "run", "using_mistral_large.py", "--server.port", "8051", "--server.address=0.0.0.0"]
